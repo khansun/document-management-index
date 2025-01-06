@@ -13,6 +13,18 @@ app = Celery(
     include=['i3worker.tasks']
 )
 
+app.conf.update(
+    broker_connection_retry_on_startup=True,
+    task_serializer='json',
+    accept_content=['json'],
+    result_serializer='json',
+    task_default_queue='i3',  # Set default queue
+    task_routes={
+        'index_add_node': {'queue': 'i3'},
+        'i3worker.tasks.*': {'queue': 'i3'}
+    }
+)
+
 app.autodiscover_tasks()
 
 # Optional configuration, see the application user guide.

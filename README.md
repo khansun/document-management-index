@@ -1,4 +1,4 @@
-# i3 Worker
+# DMS Index
 
 Microservice to synchronize DB with search index.
 i3 derives from "idx"  (i - first letter, followed by number of letters).
@@ -39,6 +39,7 @@ in normal mode would be sent to the search engine.
     $ poetry run schema apply   // apply index schema
     $ peotry run index  // index db documents
 
-## Start Worker
 
-    $ peotry run task worker
+## Docker
+* `docker build -t dms-index:dev .`
+* `docker image save dms-index:dev -o dms-index.tar`

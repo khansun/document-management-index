@@ -16,9 +16,10 @@ COPY poetry.lock pyproject.toml README.md LICENSE /app/
 RUN pip install --upgrade poetry
 
 COPY i3worker /app/i3worker/
+COPY logging.yaml /app/i3worker/logging.yaml
+
 RUN poetry install -E pg -v
 
-COPY docker/entrypoint.sh /entrypoint.sh
-RUN chmod +x /entrypoint.sh
+VOLUME ["/app/logs"]
 
-ENTRYPOINT ["/entrypoint.sh"]
+CMD ["poetry", "run", "celery", "-A", "i3worker.celery_app", "worker", "-E", "--loglevel=DEBUG"]
